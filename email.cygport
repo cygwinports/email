@@ -1,0 +1,31 @@
+GIT_URI="https://github.com/deanproxy/eMail.git"
+inherit git
+
+NAME="email"
+VERSION=3.1.4
+RELEASE=2
+CATEGORY="Mail"
+SUMMARY="Command line sending of email with attachments, optional GnuPG"
+DESCRIPTION="Command line sending of email, optionally with GnuPG encryption.
+Email is a simple command-line program to send emails. It can be configured
+to use either your sendmail installation or directly via SMTP.
+It supports binary attachments, and a simple text based address book, with groups.
+Also, if GnuPG is installed, it can digitally sign and encrypt outgoing emails."
+HOMEPAGE="http://email.cleancode.org/"
+#SRC_URI="http://email.cleancode.org/download/email-${VERSION}.tar.gz"
+# Upstream glitch
+#SRC_DIR=email-3.1.3
+
+src_compile() {
+        lndirs
+        cd ${B}
+        cygconf
+        cygmake
+}
+
+src_install() {
+        cd ${B}
+        cyginstall
+        dobin ${C}/email-config
+        make_etc_defaults /etc/email
+}
